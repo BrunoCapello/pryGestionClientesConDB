@@ -21,30 +21,95 @@ namespace pryGestionClientesConDB
         private OleDbDataAdapter adaptador = new OleDbDataAdapter();
 
 
-        private string CadenaConexion = "Provider = Microsoft.Jet.OLEDB.4.0; Data Source = C:\\Users\\Alumno\\source\\repos\\pryGestionClientesConDB\\pryGestionClientesConDBClientes.mdb";
+        private string CadenaConexion = "Provider = Microsoft.Jet.OLEDB.4.0; Data Source=Clientes.mdb";
         private string Tabla = "Lista";
+
+        private Decimal deuda;
+        private Int32 cantidad;
+
+        //Propiedades
+        public Decimal Total
+        {
+            get { return deuda; }
+        }
+        public Int32 Cantidad
+        {
+            get { return cantidad; }
+        }
+        public Decimal PromedioDeuda
+        {
+            get { return deuda / cantidad; }
+        }
 
         public void Listar(DataGridView dgv)
         {
-            //ConectionString solo sirve para conectar la Cadena de conexion a la base de datos, no para ejecutar consultas
-            conexion.ConnectionString = CadenaConexion;
-            conexion.Open();
+            try
+            {
+                //ConectionString solo sirve para conectar la Cadena de conexion a la base de datos, no para ejecutar consultas
+                conexion.ConnectionString = CadenaConexion;
+                conexion.Open();
 
-            //Ejecutamos la conexión, le decimos que tipo de tabla usamos y cual usamos
-            comando.Connection = conexion;
-            comando.CommandType = CommandType.TableDirect;
-            comando.CommandText = Tabla;
+                //Ejecutamos la conexión, le decimos que tipo de tabla usamos y cual usamos
+                comando.Connection = conexion;
+                comando.CommandType = CommandType.TableDirect;
+                comando.CommandText = Tabla;
 
-            //Adaptamos los datos de toda la tabla y los cargamos a ds(DataSet)
-            adaptador = new OleDbDataAdapter(comando);
-            DataSet ds = new DataSet();
-            adaptador.Fill(ds);
+                //Adaptamos los datos de toda la tabla y los cargamos a ds(DataSet)
+                adaptador = new OleDbDataAdapter(comando);
+                DataSet ds = new DataSet();
+                adaptador.Fill(ds);
 
-            //Mostramos los datos en el DataGridView
-            dgv.Rows.Clear();
-            dgv.DataSource = ds.Tables[0];
+                //Mostramos los datos en el DataGridView
+                dgv.DataSource = ds.Tables[0];
 
-            conexion.Close();
+                conexion.Close();
+            } 
+            catch (Exception e)
+            {
+                MessageBox.Show("Error al listar los datos " + e.ToString());
+            }
+            
+        }
+
+        public void Deudores(DataGridView dgv)
+        {
+            try
+            {
+                conexion.ConnectionString = CadenaConexion;
+                conexion.Open();    
+
+                comando.Connection = conexion;
+                comando.CommandType = CommandType.TableDirect;
+                comando.CommandText = Tabla;
+
+                //Ejecutamos el comando
+                OleDbDataReader DataReader = comando.ExecuteReader();
+                dgv.Rows.Clear();
+
+                if (DataReader.HasRows)
+                {
+                    while (DataReader.Read())
+                    {
+                        if (DataReader.GetDecimal(2) > 0)
+                        {
+                            dgv.Rows.Add(
+                                DataReader.GetInt32(0),
+                                DataReader.GetString(1),
+                                DataReader.GetDecimal(2)
+                            );
+                            cantidad++;
+                            deuda += DataReader.GetDecimal(2);
+                        }
+                    }
+                }
+                conexion.Close();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Error al listar los datos " + e.ToString());
+            }
+
+            dgv.ClearSelection();
         }
     }
 }
