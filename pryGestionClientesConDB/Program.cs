@@ -16,7 +16,7 @@ namespace pryGestionClientesConDB
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmDeudores());
+            Application.Run(new frmPrincipal());
         }
     }
 }

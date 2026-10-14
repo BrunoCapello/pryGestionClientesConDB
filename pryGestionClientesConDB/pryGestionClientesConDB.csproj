@@ -47,6 +47,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="clsClientes.cs" />
+    <Compile Include="frmBusquedaCliente.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmBusquedaCliente.Designer.cs">
+      <DependentUpon>frmBusquedaCliente.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmDeudores.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -67,6 +73,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="frmBusquedaCliente.resx">
+      <DependentUpon>frmBusquedaCliente.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmDeudores.resx">
       <DependentUpon>frmDeudores.cs</DependentUpon>
     </EmbeddedResource>

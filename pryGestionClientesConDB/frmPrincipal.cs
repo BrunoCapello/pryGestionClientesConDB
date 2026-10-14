@@ -28,5 +28,11 @@ namespace pryGestionClientesConDB
         {
             Application.Exit();
         }
+
+        private void buscarClienteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmBusquedaCliente BuscarCliente = new frmBusquedaCliente();
+            BuscarCliente.ShowDialog();
+        }
     }
 }

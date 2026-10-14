@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Data;
 using System.Data.OleDb;
 using System.Windows.Forms;
+using System.Drawing;
 
 namespace pryGestionClientesConDB
 {
@@ -21,11 +22,17 @@ namespace pryGestionClientesConDB
         private OleDbDataAdapter adaptador = new OleDbDataAdapter();
 
 
-        private string CadenaConexion = "Provider = Microsoft.Jet.OLEDB.4.0; Data Source=Clientes.mdb";
+        private string CadenaConexion = "Provider = Microsoft.Jet.OLEDB.4.0; Data Source=..\\..\\Clientes.mdb";
         private string Tabla = "Lista";
 
         private Decimal deuda;
         private Int32 cantidad;
+
+        private Int32 IdCLiente;
+        private string nombre;
+        private decimal deudaCliente;
+        private decimal limite;
+        private Int32 IdCiudad;
 
         //Propiedades
         public Decimal Total
@@ -39,6 +46,32 @@ namespace pryGestionClientesConDB
         public Decimal PromedioDeuda
         {
             get { return deuda / cantidad; }
+        }
+
+        public Int32 idCliente
+        {
+            get { return IdCLiente; }
+            set { IdCLiente = value; }
+        }
+        public String Nombre
+        {
+            get { return nombre; }
+            set { nombre = value; }
+        }
+        public Decimal Deuda
+        {
+            get { return deudaCliente; }
+            set { deudaCliente = value; }
+        }
+        public Decimal Limite
+        {
+            get { return limite; }
+            set { limite = value; }
+        }
+        public Int32 idCiudad
+        {
+            get { return IdCiudad; }
+            set { IdCiudad = value; }
         }
 
         public void Listar(DataGridView dgv)
@@ -110,6 +143,44 @@ namespace pryGestionClientesConDB
             }
 
             dgv.ClearSelection();
+        }
+
+    public void BuscarDeudores(Int32 Cliente)
+        {
+            try
+            {
+                conexion.ConnectionString = CadenaConexion;
+                conexion.Open();
+
+                comando.Connection = conexion;
+                comando.CommandType = CommandType.TableDirect;
+                comando.CommandText = Tabla;
+
+                OleDbDataReader DataReader = comando.ExecuteReader();
+
+                idCliente = 0;
+                if (DataReader.HasRows)
+                {
+                    while (DataReader.Read())
+                    {
+                        if (DataReader.GetInt32(0) == Cliente)
+                        {
+                            IdCLiente = DataReader.GetInt32(0);
+                            nombre = DataReader.GetString(1);
+                            deudaCliente = DataReader.GetDecimal(2);
+                            limite = DataReader.GetDecimal(3);
+                            IdCiudad = DataReader.GetInt32(4);
+                        }
+                    }
+                }
+                
+                conexion.Close();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Error al listar los datos " + e.ToString());
+            }
+
         }
     }
 }
