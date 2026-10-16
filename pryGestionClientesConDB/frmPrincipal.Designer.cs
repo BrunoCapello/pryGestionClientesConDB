@@ -79,12 +79,14 @@
             this.clientesToolStripMenuItem.Name = "clientesToolStripMenuItem";
             this.clientesToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
             this.clientesToolStripMenuItem.Text = "Clientes";
+            this.clientesToolStripMenuItem.Click += new System.EventHandler(this.clientesToolStripMenuItem_Click);
             // 
             // agregarNuevosClientesToolStripMenuItem
             // 
             this.agregarNuevosClientesToolStripMenuItem.Name = "agregarNuevosClientesToolStripMenuItem";
             this.agregarNuevosClientesToolStripMenuItem.Size = new System.Drawing.Size(251, 22);
             this.agregarNuevosClientesToolStripMenuItem.Text = "Agregar nuevos clientes";
+            this.agregarNuevosClientesToolStripMenuItem.Click += new System.EventHandler(this.agregarNuevosClientesToolStripMenuItem_Click);
             // 
             // buscarClienteToolStripMenuItem
             // 

@@ -145,7 +145,7 @@ namespace pryGestionClientesConDB
             dgv.ClearSelection();
         }
 
-    public void BuscarDeudores(Int32 Cliente)
+        public void BuscarDeudores(Int32 Cliente)
         {
             try
             {
@@ -174,6 +174,45 @@ namespace pryGestionClientesConDB
                     }
                 }
                 
+                conexion.Close();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Error al listar los datos " + e.ToString());
+            }
+
+        }
+
+        public void Agregar()
+        {
+            try
+            {
+                conexion.ConnectionString = CadenaConexion;
+                conexion.Open();
+
+                comando.Connection = conexion;
+                comando.CommandType = CommandType.TableDirect;
+                comando.CommandText = Tabla;
+
+                //Adaptamos los datos de toda la tabla y los cargamos a ds(DataSet)
+                adaptador = new OleDbDataAdapter(comando);
+                DataSet ds = new DataSet();
+                adaptador.Fill(ds, Tabla);
+
+                //Instanciamos el objeto
+                DataTable tabla = ds.Tables[Tabla];
+                DataRow fila = tabla.NewRow();
+
+                //Llenamos la fila
+                fila["Nombre"] = nombre;
+                fila["Deuda"] = 0;
+                fila["Límite"] = limite;
+                fila["idCiudad"] = idCiudad;
+
+                tabla.Rows.Add(fila);
+                OleDbCommandBuilder ConciliaCambios = new OleDbCommandBuilder(adaptador);
+                adaptador.Update(ds, Tabla);
+
                 conexion.Close();
             }
             catch (Exception e)

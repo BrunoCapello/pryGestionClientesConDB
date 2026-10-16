@@ -34,5 +34,16 @@ namespace pryGestionClientesConDB
             frmBusquedaCliente BuscarCliente = new frmBusquedaCliente();
             BuscarCliente.ShowDialog();
         }
+
+        private void clientesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void agregarNuevosClientesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmAgregar Agregar = new frmAgregar();
+            Agregar.ShowDialog();
+        }
     }
 }
