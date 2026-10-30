@@ -7,6 +7,7 @@ using System.Data;
 using System.Data.OleDb;
 using System.Windows.Forms;
 using System.Drawing;
+using System.IO;
 
 namespace pryGestionClientesConDB
 {
@@ -220,6 +221,130 @@ namespace pryGestionClientesConDB
                 MessageBox.Show("Error al listar los datos " + e.ToString());
             }
 
+        }
+
+        public void ReporteClientes()
+        {
+            try
+            {
+                conexion.ConnectionString = CadenaConexion;
+                conexion.Open();
+
+                comando.Connection = conexion;
+                comando.CommandType = CommandType.TableDirect;
+                comando.CommandText = Tabla;
+
+                OleDbDataReader DR = comando.ExecuteReader();
+                StreamWriter AD = new StreamWriter("Reporte.csv", false, Encoding.UTF8);
+                AD.WriteLine("Listado de Clientes\n");
+                AD.WriteLine("Código;Nombre;Deuda");
+
+                cantidad = 0;
+                deuda = 0;
+
+                if (DR.HasRows)
+                {
+                    while (DR.Read())
+                    {
+                        AD.Write(DR.GetInt32(0));
+                        AD.Write(";");
+                        AD.Write(DR.GetString(1));
+                        AD.Write(";");
+                        AD.Write(DR.GetDecimal(2));
+
+                        cantidad++;
+                        deuda += DR.GetDecimal(2);
+                    }
+                    AD.Write("\nCantidad de cleintes:;;");
+                    AD.WriteLine(cantidad);
+                    AD.Write("Deuda de los clientes:;;");
+                    AD.WriteLine(deuda);
+                }
+                conexion.Close();
+                AD.Close();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString());
+            }
+        }
+
+        public void ReporteClientesCuadroDialogo(String nombreArchivo)
+        {
+            try
+            {
+                conexion.ConnectionString = CadenaConexion;
+                conexion.Open();
+
+                comando.Connection = conexion;
+                comando.CommandType = CommandType.TableDirect;
+                comando.CommandText = Tabla;
+
+                OleDbDataReader DR = comando.ExecuteReader();
+                StreamWriter AD = new StreamWriter(nombreArchivo, false, Encoding.UTF8);
+                AD.WriteLine("Listado de Clientes\n");
+                AD.WriteLine("Código;Nombre;Deuda");
+
+                cantidad = 0;
+                deuda = 0;
+
+                if (DR.HasRows)
+                {
+                    while (DR.Read())
+                    {
+                        AD.Write(DR.GetInt32(0));
+                        AD.Write(";");
+                        AD.Write(DR.GetString(1));
+                        AD.Write(";");
+                        AD.Write(DR.GetDecimal(2));
+
+                        cantidad++;
+                        deuda += DR.GetDecimal(2);
+                    }
+                    AD.Write("\nCantidad de cleintes:;;");
+                    AD.WriteLine(cantidad);
+                    AD.Write("Deuda de los clientes:;;");
+                    AD.WriteLine(deuda);
+                }
+                conexion.Close();
+                AD.Close();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString());
+            }
+        }
+
+        public void ListarDataSet(DataGridView Grilla) //para recorrer un DataSet. Pag 93 del libro (materiales.ies21.edu.ar/263.pdf)
+        {
+            try
+            {
+                conexion.ConnectionString = CadenaConexion;
+                conexion.Open();
+
+                comando.Connection = conexion;
+                comando.CommandType = CommandType.TableDirect;
+                comando.CommandText = Tabla;
+
+                adaptador = new OleDbDataAdapter(comando); //adapta los dato de la base de datos a datos que sean entendibles por .NET
+
+                DataSet DS = new DataSet(); // creamos el DataSet
+                adaptador.Fill(DS, Tabla); // llenamos el DataSet por medio del adapataor
+
+                if (DS.Tables[Tabla].Rows.Count > 0) //si ese DataSet tiene filas
+                {
+                    foreach (DataRow x in DS.Tables[Tabla].Rows) //recorre el objeto (DS). DataRow o sea Fila de datos. variable x. in es en. Luego toda la fila.
+                    {
+                        Grilla.Rows.Add(x["Nombre"], x["idCiudad"]); //En el DataSet llamamos por "nombre del campo" no la ubicación como el DataReader.
+                    }
+                }
+
+                conexion.Close();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString());
+            }
         }
     }
 }

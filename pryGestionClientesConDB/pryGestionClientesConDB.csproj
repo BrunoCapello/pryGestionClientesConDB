@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="clsArchivos.cs" />
     <Compile Include="clsCiudad.cs" />
     <Compile Include="clsClientes.cs" />
     <Compile Include="frmAgregar.cs">
