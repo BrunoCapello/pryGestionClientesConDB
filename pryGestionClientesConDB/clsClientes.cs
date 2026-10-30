@@ -335,7 +335,7 @@ namespace pryGestionClientesConDB
                 {
                     foreach (DataRow x in DS.Tables[Tabla].Rows) //recorre el objeto (DS). DataRow o sea Fila de datos. variable x. in es en. Luego toda la fila.
                     {
-                        Grilla.Rows.Add(x["Nombre"], x["idCiudad"]); //En el DataSet llamamos por "nombre del campo" no la ubicación como el DataReader.
+                        Grilla.Rows.Add(x["Nombre"], x["idCiudad"], x["Deuda"]); //En el DataSet llamamos por "nombre del campo" no la ubicación como el DataReader.
                     }
                 }
 
