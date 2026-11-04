@@ -8,6 +8,7 @@ using System.Data.OleDb;
 using System.Windows.Forms;
 using System.Drawing;
 using System.IO;
+using System.Drawing.Printing;
 
 namespace pryGestionClientesConDB
 {
@@ -345,6 +346,54 @@ namespace pryGestionClientesConDB
             {
                 MessageBox.Show(e.ToString());
             }
+        }
+
+        public void Imprimir(PrintPageEventArgs reporte)
+        {
+            try
+            {
+                Font LetraTexto = new Font("Sans Serif", 12);
+                Font LetraTitulo = new Font("Sans Serif", 20, FontStyle.Bold);
+                Font LetraSubtitulo = new Font("Sans Serif", 16, FontStyle.Bold);
+                Int32 space = 200;
+
+                reporte.Graphics.DrawString("Listado de Clientes", LetraTitulo, Brushes.Black, 100, 100);
+                reporte.Graphics.DrawString("Código", LetraSubtitulo, Brushes.Black, 50, 150);
+                reporte.Graphics.DrawString("Nombre", LetraSubtitulo, Brushes.Black, 150, 150);
+                reporte.Graphics.DrawString("Deuda", LetraSubtitulo, Brushes.Black, 320, 150);
+
+                //ConectionString solo sirve para conectar la Cadena de conexion a la base de datos, no para ejecutar consultas
+                conexion.ConnectionString = CadenaConexion;
+                conexion.Open();
+
+                //Ejecutamos la conexión, le decimos que tipo de tabla usamos y cual usamos
+                comando.Connection = conexion;
+                comando.CommandType = CommandType.TableDirect;
+                comando.CommandText = Tabla;
+
+                //Adaptamos los datos de toda la tabla y los cargamos a ds(DataSet)
+                adaptador = new OleDbDataAdapter(comando);
+                DataSet ds = new DataSet();
+                adaptador.Fill(ds, Tabla);
+
+                if (ds.Tables[Tabla].Rows.Count > 0)
+                {
+                    foreach (DataRow fila in ds.Tables[Tabla].Rows) //recorre el objeto (DS). DataRow o sea Fila de datos. variable x. in es en. Luego toda la fila.
+                    {
+                        reporte.Graphics.DrawString(fila["IdCLiente"].ToString(), LetraTexto, Brushes.Black, 50, space);
+                        reporte.Graphics.DrawString(fila["Nombre"].ToString(), LetraTexto, Brushes.Black, 150, space);
+                        reporte.Graphics.DrawString(fila["Deuda"].ToString(), LetraTexto, Brushes.Black, 320, space);
+                        space += 20;
+                    }
+                }
+
+                conexion.Close();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Error al listar los datos " + e.ToString());
+            }
+
         }
     }
 }

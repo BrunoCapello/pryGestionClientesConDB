@@ -32,10 +32,13 @@
             this.btnListar = new System.Windows.Forms.Button();
             this.btnListarDataSet = new System.Windows.Forms.Button();
             this.dgvDataSet = new System.Windows.Forms.DataGridView();
-            this.btnReporte = new System.Windows.Forms.Button();
             this.colNombre = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colCiudad = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colDeuda = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnReporte = new System.Windows.Forms.Button();
+            this.prtVentana = new System.Windows.Forms.PrintDialog();
+            this.prtDocumento = new System.Drawing.Printing.PrintDocument();
+            this.btnImprimir = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvListado)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDataSet)).BeginInit();
             this.SuspendLayout();
@@ -50,9 +53,9 @@
             // 
             // btnListar
             // 
-            this.btnListar.Location = new System.Drawing.Point(237, 287);
+            this.btnListar.Location = new System.Drawing.Point(312, 287);
             this.btnListar.Name = "btnListar";
-            this.btnListar.Size = new System.Drawing.Size(220, 19);
+            this.btnListar.Size = new System.Drawing.Size(145, 22);
             this.btnListar.TabIndex = 0;
             this.btnListar.Text = "Listar";
             this.btnListar.UseVisualStyleBackColor = true;
@@ -62,7 +65,7 @@
             // 
             this.btnListarDataSet.Location = new System.Drawing.Point(463, 287);
             this.btnListarDataSet.Name = "btnListarDataSet";
-            this.btnListarDataSet.Size = new System.Drawing.Size(445, 19);
+            this.btnListarDataSet.Size = new System.Drawing.Size(445, 22);
             this.btnListarDataSet.TabIndex = 1;
             this.btnListarDataSet.Text = "Listar";
             this.btnListarDataSet.UseVisualStyleBackColor = true;
@@ -81,16 +84,6 @@
             this.dgvDataSet.Size = new System.Drawing.Size(445, 269);
             this.dgvDataSet.TabIndex = 2;
             // 
-            // btnReporte
-            // 
-            this.btnReporte.Location = new System.Drawing.Point(12, 287);
-            this.btnReporte.Name = "btnReporte";
-            this.btnReporte.Size = new System.Drawing.Size(220, 19);
-            this.btnReporte.TabIndex = 3;
-            this.btnReporte.Text = "Generar Reporte";
-            this.btnReporte.UseVisualStyleBackColor = true;
-            this.btnReporte.Click += new System.EventHandler(this.btnReporte_Click);
-            // 
             // colNombre
             // 
             this.colNombre.HeaderText = "Nombre";
@@ -106,11 +99,40 @@
             this.colDeuda.HeaderText = "Deuda";
             this.colDeuda.Name = "colDeuda";
             // 
+            // btnReporte
+            // 
+            this.btnReporte.Location = new System.Drawing.Point(161, 287);
+            this.btnReporte.Name = "btnReporte";
+            this.btnReporte.Size = new System.Drawing.Size(145, 22);
+            this.btnReporte.TabIndex = 3;
+            this.btnReporte.Text = "Generar Reporte";
+            this.btnReporte.UseVisualStyleBackColor = true;
+            this.btnReporte.Click += new System.EventHandler(this.btnReporte_Click);
+            // 
+            // prtVentana
+            // 
+            this.prtVentana.UseEXDialog = true;
+            // 
+            // prtDocumento
+            // 
+            this.prtDocumento.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.prtDocumento_PrintPage);
+            // 
+            // btnImprimir
+            // 
+            this.btnImprimir.Location = new System.Drawing.Point(12, 287);
+            this.btnImprimir.Name = "btnImprimir";
+            this.btnImprimir.Size = new System.Drawing.Size(145, 22);
+            this.btnImprimir.TabIndex = 4;
+            this.btnImprimir.Text = "Imprimir Reporte";
+            this.btnImprimir.UseVisualStyleBackColor = true;
+            this.btnImprimir.Click += new System.EventHandler(this.btnImprimir_Click);
+            // 
             // frmListadoClientes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(924, 317);
+            this.ClientSize = new System.Drawing.Size(924, 316);
+            this.Controls.Add(this.btnImprimir);
             this.Controls.Add(this.btnReporte);
             this.Controls.Add(this.btnListarDataSet);
             this.Controls.Add(this.dgvDataSet);
@@ -134,5 +156,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colCiudad;
         private System.Windows.Forms.DataGridViewTextBoxColumn colDeuda;
         private System.Windows.Forms.Button btnReporte;
+        private System.Windows.Forms.PrintDialog prtVentana;
+        private System.Drawing.Printing.PrintDocument prtDocumento;
+        private System.Windows.Forms.Button btnImprimir;
     }
 }

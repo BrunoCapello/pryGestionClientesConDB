@@ -44,5 +44,20 @@ namespace pryGestionClientesConDB
         {
             objClientes.ListarDataSet(dgvDataSet);
         }
+
+        private void btnImprimir_Click(object sender, EventArgs e)
+        {
+            prtVentana.ShowDialog();
+            prtDocumento.PrinterSettings = prtVentana.PrinterSettings;
+            prtDocumento.Print();
+        }
+
+        private void prtDocumento_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
+        {
+            //Font TipoLetra = new Font("Sans Serif", 12, FontStyle.Bold);
+            //e.Graphics.DrawString("Hola Mundo", TipoLetra, Brushes.Blue, 200, 200);
+
+            objClientes.Imprimir(e);
+        }
     }
 }
