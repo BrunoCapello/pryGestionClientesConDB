@@ -251,12 +251,12 @@ namespace pryGestionClientesConDB
                         AD.Write(";");
                         AD.Write(DR.GetString(1));
                         AD.Write(";");
-                        AD.Write(DR.GetDecimal(2));
+                        AD.WriteLine(DR.GetDecimal(2));
 
                         cantidad++;
                         deuda += DR.GetDecimal(2);
                     }
-                    AD.Write("\nCantidad de cleintes:;;");
+                    AD.Write("\nCantidad de clientes:;;");
                     AD.WriteLine(cantidad);
                     AD.Write("Deuda de los clientes:;;");
                     AD.WriteLine(deuda);
@@ -297,12 +297,12 @@ namespace pryGestionClientesConDB
                         AD.Write(";");
                         AD.Write(DR.GetString(1));
                         AD.Write(";");
-                        AD.Write(DR.GetDecimal(2));
+                        AD.WriteLine(DR.GetDecimal(2));
 
                         cantidad++;
                         deuda += DR.GetDecimal(2);
                     }
-                    AD.Write("\nCantidad de cleintes:;;");
+                    AD.Write("\nCantidad de clientes:;;");
                     AD.WriteLine(cantidad);
                     AD.Write("Deuda de los clientes:;;");
                     AD.WriteLine(deuda);

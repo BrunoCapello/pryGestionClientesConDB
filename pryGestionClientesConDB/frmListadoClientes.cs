@@ -33,11 +33,11 @@ namespace pryGestionClientesConDB
             objArchivo.RestoreDirectory = true;
             objArchivo.Filter = "Archivos separados por coma (*.csv)|*.csv|Archivos de texto (*.txt)|*.txt";
 
-            objArchivo.ShowDialog();
-
-
-            objClientes.ReporteClientesCuadroDialogo(objArchivo.FileName);
-            MessageBox.Show("Reporte generado correctamente");
+            if (objArchivo.ShowDialog() == DialogResult.OK)
+            {
+                objClientes.ReporteClientesCuadroDialogo(objArchivo.FileName);
+                MessageBox.Show("Reporte generado correctamente");
+            }  
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -47,9 +47,18 @@ namespace pryGestionClientesConDB
 
         private void btnImprimir_Click(object sender, EventArgs e)
         {
-            prtVentana.ShowDialog();
-            prtDocumento.PrinterSettings = prtVentana.PrinterSettings;
-            prtDocumento.Print();
+            if (prtVentana.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    prtDocumento.PrinterSettings = prtVentana.PrinterSettings;
+                    prtDocumento.Print();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("No se pudo imprimir: " + ex.Message);
+                }
+            }
         }
 
         private void prtDocumento_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
