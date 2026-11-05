@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 using System.Data;
 using System.Data.OleDb;
 using System.Windows.Forms;
-using System.Drawing;
 using System.IO;
+using System.Drawing;
 using System.Drawing.Printing;
 
 namespace pryGestionClientesConDB
@@ -36,7 +36,7 @@ namespace pryGestionClientesConDB
         private decimal limite;
         private Int32 IdCiudad;
 
-        //Propiedades
+        //Propiedades, cuando tienen solo get, se pueden leer pero no modificar desde fuera de la clase
         public Decimal Total
         {
             get { return deuda; }
